@@ -12,18 +12,19 @@ https://github.com/paperclipai/paperclip
 
 | Branch | Purpose |
 |---|---|
-| `main` | Upstream mirror — **never commit here directly** |
-| `claude/*` / `feature/*` | All custom work, rebased on top of `main` |
+| `master` | Upstream mirror — **never commit here directly** |
+| `claude/*` / `feature/*` | All custom work, rebased on top of `master` |
 
 ## What You (the AI agent) Must Do Before Starting Work
 
-`main` is kept in sync with upstream externally — you don't need to do that.
+`master` is kept in sync with upstream externally — you don't need to do that.
+This rebase also runs automatically via a `SessionStart` hook in `.claude/settings.json`.
 
 Your job at the start of every task:
 
 ```sh
 git fetch origin
-git rebase origin/main
+git rebase origin/master
 ```
 
 Then work on the current feature branch. Push when done:
@@ -36,9 +37,9 @@ Never use bare `--force`.
 
 ## Rules
 
-1. **Never commit to `main`.**
+1. **Never commit to `master`.**
 2. All work goes on `claude/*` or `feature/*` branches.
-3. Rebase on `main` before starting — don't merge.
+3. Rebase on `master` before starting — don't merge.
 4. Resolve rebase conflicts by preferring upstream for shared files;
    keep our changes for files listed below.
 
