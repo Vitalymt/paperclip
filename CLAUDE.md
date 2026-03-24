@@ -15,32 +15,18 @@ https://github.com/paperclipai/paperclip
 | `main` | Upstream mirror — **never commit here directly** |
 | `claude/*` / `feature/*` | All custom work, rebased on top of `main` |
 
-## Before Starting Any Work
+## What You (the AI agent) Must Do Before Starting Work
 
-Sync `main` from upstream first:
+`main` is kept in sync with upstream externally — you don't need to do that.
 
-```sh
-./scripts/sync-upstream.sh
-```
-
-Or manually:
+Your job at the start of every task:
 
 ```sh
-git fetch upstream
-git checkout main && git merge upstream/main --ff-only
-git push origin main
-git checkout <your-branch> && git rebase main
+git fetch origin
+git rebase origin/main
 ```
 
-If `upstream` remote is missing:
-
-```sh
-git remote add upstream https://github.com/paperclipai/paperclip.git
-```
-
-## Push Rules
-
-After a rebase, push with:
+Then work on the current feature branch. Push when done:
 
 ```sh
 git push origin <branch> --force-with-lease
@@ -48,16 +34,20 @@ git push origin <branch> --force-with-lease
 
 Never use bare `--force`.
 
-## Conflict Resolution During Rebase
+## Rules
 
-- Upstream wins for all shared source files.
-- Keep our changes for: `scripts/yc-*.sh`, `CLAUDE.md`.
+1. **Never commit to `main`.**
+2. All work goes on `claude/*` or `feature/*` branches.
+3. Rebase on `main` before starting — don't merge.
+4. Resolve rebase conflicts by preferring upstream for shared files;
+   keep our changes for files listed below.
 
-## Our Custom Files (do not delete on sync)
+## Our Custom Files (keep through rebases, never delete)
 
 - `CLAUDE.md` — this file
 - `scripts/yc-vm-setup.sh` — Yandex Cloud VM deployment
 - `scripts/yc-tunnel.sh` — SSH tunnel helper
+- `scripts/sync-upstream.sh` — upstream sync (run by the operator, not by you)
 
 ---
 
